@@ -75,12 +75,3 @@ nvcc -c -o roi_align_kernel.cu.o roi_align_kernel.cu \
 	 -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC $CUDA_ARCH
 cd ../
 python3 build.py
-
-# compile roi_mask_align (based on Caffe2's implementation and py-RFCN-priv's implementation)
-cd ../
-cd roi_mask_align/src
-echo "Compling roi mask align kernels by nvcc..."
-nvcc -c -o roi_mask_align_kernel.cu.o roi_mask_align_kernel.cu \
-         -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC $CUDA_ARCH
-cd ../
-python3 build.py

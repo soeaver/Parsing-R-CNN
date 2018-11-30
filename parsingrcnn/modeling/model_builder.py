@@ -318,7 +318,7 @@ class Generalized_RCNN(nn.Module):
           - Use of FPN or not
           - Specifics of the transform method
         """
-        assert method in {'RoIPoolF', 'RoICrop', 'RoIAlign', 'RoIMaskAlign'}, \
+        assert method in {'RoIPoolF', 'RoICrop', 'RoIAlign'}, \
             'Unknown pooling method: {}'.format(method)
 
         if isinstance(blobs_in, list):

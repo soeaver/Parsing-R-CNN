@@ -1,1 +1,0 @@
-python3 tools/infer_simple.py --dataset keypoints_coco --cfg weights/e2e_mask-keypoint_rcnn_R-50-FPN_s1x_ms6/e2e_mask-keypoint_rcnn_R-50-FPN_s1x_ms6.yaml --load_detectron weights/e2e_mask-keypoint_rcnn_R-50-FPN_s1x_ms6/model_final.pkl --image_dir demo/sample_images/ --output_dir ./

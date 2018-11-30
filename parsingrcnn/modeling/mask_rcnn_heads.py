@@ -115,13 +115,6 @@ def mask_rcnn_fcn_head_v1up4convs_gn(dim_in, roi_xform_func, spatial_scale):
     )
 
 
-def mask_rcnn_fcn_head_v1up4convs_sn(dim_in, roi_xform_func, spatial_scale):
-    """v1up design: 4 * (conv 3x3), convT 2x2, with SwitchNorm"""
-    return mask_rcnn_fcn_head_v1upXconvs_sn(
-        dim_in, roi_xform_func, spatial_scale, 4
-    )
-
-
 def mask_rcnn_fcn_head_v1up4convs_nonlocal(dim_in, roi_xform_func, spatial_scale):
     """v1up design: 4 * (conv 3x3), convT 2x2 with nonlocal"""
     return mask_rcnn_fcn_head_v1upXconvs_nonlocal(

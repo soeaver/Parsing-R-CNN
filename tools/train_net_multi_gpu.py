@@ -158,20 +158,12 @@ def main():
 
     # Define Optimizer
     gn_param_nameset = set()
-    sn_param_nameset = set()
     for name, module in maskRCNN.named_modules():
         if isinstance(module, nn.GroupNorm):
             gn_param_nameset.add(name + '.weight')
             gn_param_nameset.add(name + '.bias')
-        if isinstance(module, mynn.SwitchNorm):
-            sn_param_nameset.add(name+'.weight')
-            sn_param_nameset.add(name+'.bias')
-            sn_param_nameset.add(name+'.mean_weight')
-            sn_param_nameset.add(name+'.var_weight')
     gn_params = []
     gn_param_names = []
-    sn_params = []
-    sn_param_names = []
     bias_params = []
     bias_param_names = []
     nonbias_params = []
@@ -185,16 +177,12 @@ def main():
             elif key in gn_param_nameset:
                 gn_params.append(value)
                 gn_param_names.append(key)
-            elif key in sn_param_nameset:
-                sn_params.append(value)
-                sn_param_names.append(key)
             else:
                 nonbias_params.append(value)
                 nonbias_param_names.append(key)
         else:
             nograd_param_names.append(key)
     assert (gn_param_nameset - set(nograd_param_names) - set(bias_param_names)) == set(gn_param_names)
-    assert (sn_param_nameset - set(nograd_param_names) - set(bias_param_names)) == set(sn_param_names)
 
     params = [
         {'params': nonbias_params,
@@ -205,13 +193,10 @@ def main():
          'weight_decay': cfg.SOLVER.WEIGHT_DECAY if cfg.SOLVER.BIAS_WEIGHT_DECAY else 0},
         {'params': gn_params,
          'lr': 0,
-         'weight_decay': cfg.SOLVER.WEIGHT_DECAY_GN},
-        {'params': sn_params,
-         'lr': 0,
-         'weight_decay': cfg.SOLVER.WEIGHT_DECAY_SN}
+         'weight_decay': cfg.SOLVER.WEIGHT_DECAY_GN}
     ]  # Learning rate of 0 is a dummy value to be set properly at the start of training
 
-    param_names = [nonbias_param_names, bias_param_names, gn_param_names, sn_param_names]  # names of paramerters for each paramter
+    param_names = [nonbias_param_names, bias_param_names, gn_param_names]  # names of paramerters for each paramter
 
     if cfg.SOLVER.TYPE == "SGD":
         optimizer = torch.optim.SGD(params, momentum=cfg.SOLVER.MOMENTUM)

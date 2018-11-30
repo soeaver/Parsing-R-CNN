@@ -672,7 +672,6 @@ __C.SOLVER.MOMENTUM = 0.9
 __C.SOLVER.WEIGHT_DECAY = 0.0005
 # L2 regularization hyperparameter for GroupNorm's parameters
 __C.SOLVER.WEIGHT_DECAY_GN = 0.0
-__C.SOLVER.WEIGHT_DECAY_SN = 0.0
 
 # Whether to double the learning rate for bias
 __C.SOLVER.BIAS_DOUBLE_LR = True

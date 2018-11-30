@@ -1,0 +1,21 @@
+int roi_mask_align_forward_cuda(int aligned_height,
+								int aligned_width,
+								float spatial_scale,
+                                int sampling_ratio,
+                                float spatial_shift,
+                                int half_part,
+								float roi_scale,
+								THCudaTensor * features,
+								THCudaTensor * rois,
+								THCudaTensor * output);
+
+int roi_mask_align_backward_cuda(int aligned_height,
+								 int aligned_width,
+								 float spatial_scale,
+								 int sampling_ratio,
+								 float spatial_shift,
+								 int half_part,
+								 float roi_scale,
+								 THCudaTensor * top_grad,
+								 THCudaTensor * rois,
+								 THCudaTensor * bottom_grad);

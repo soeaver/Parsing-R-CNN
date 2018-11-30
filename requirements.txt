@@ -1,0 +1,15 @@
+tornado 
+graphviz 
+pyyaml 
+pandas 
+h5py
+nose 
+protobuf 
+cython 
+cffi 
+typing
+tqdm
+pprint
+pycocotools
+tensorboard-pytorch
+easydict

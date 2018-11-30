@@ -12,7 +12,6 @@ from parsingrcnn.core.config import cfg
 from parsingrcnn.model.roi_pooling.functions.roi_pool import RoIPoolFunction
 from parsingrcnn.model.roi_crop.functions.roi_crop import RoICropFunction
 from parsingrcnn.modeling.roi_xfrom.roi_align.functions.roi_align import RoIAlignFunction
-from parsingrcnn.modeling.roi_xfrom.roi_mask_align.functions.roi_mask_align import RoIMaskAlignFunction
 import parsingrcnn.modeling.retinanet_heads as retinanet_heads
 import parsingrcnn.modeling.rpn_heads as rpn_heads
 import parsingrcnn.modeling.fast_rcnn_heads as fast_rcnn_heads
@@ -353,12 +352,6 @@ class Generalized_RCNN(nn.Module):
                     elif method == 'RoIAlign':
                         xform_out = RoIAlignFunction(
                             resolution, resolution, sc, sampling_ratio)(bl_in, rois)
-                    elif method == 'RoIMaskAlign':
-                        xform_out = RoIMaskAlignFunction(
-                            resolution, resolution, sc, sampling_ratio,
-                            cfg.FAST_RCNN.ROI_XFORM_SPATIAL_SHIFT,
-                            cfg.FAST_RCNN.ROI_XFORM_HALF_PART,
-                            cfg.FAST_RCNN.ROI_XFORM_ROI_SCALE)(bl_in, rois)
                     bl_out_list.append(xform_out)
             if not panet:
                 # The pooled features from all levels are concatenated along the
@@ -392,12 +385,6 @@ class Generalized_RCNN(nn.Module):
             elif method == 'RoIAlign':
                 xform_out = RoIAlignFunction(
                     resolution, resolution, spatial_scale, sampling_ratio)(blobs_in, rois)
-            elif method == 'RoIMaskAlign':
-                xform_out = RoIMaskAlignFunction(
-                    resolution, resolution, spatial_scale, sampling_ratio,
-                    cfg.FAST_RCNN.ROI_XFORM_SPATIAL_SHIFT,
-                    cfg.FAST_RCNN.ROI_XFORM_HALF_PART,
-                    cfg.FAST_RCNN.ROI_XFORM_ROI_SCALE)(blobs_in, rois)
 
         return xform_out
 

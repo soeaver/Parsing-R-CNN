@@ -527,9 +527,6 @@ __C.MODEL.UV_ON = False
 # Indicates the model makes parsing predictions (as in Parsing R-CNN)
 __C.MODEL.PARSING_ON = False
 
-# Indicates the model trained by mix-supervised (as in Mix-Supervised Learning)
-__C.MODEL.MIXTRAIN_ON = False
-
 # Indicates the model's computation terminates with the production of RPN
 # proposals (i.e., it outputs proposals ONLY, no actual object detections)
 __C.MODEL.RPN_ONLY = False

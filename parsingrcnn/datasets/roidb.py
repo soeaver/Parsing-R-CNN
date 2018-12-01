@@ -131,21 +131,16 @@ def filter_for_training(roidb):
                            (overlaps >= cfg.TRAIN.BG_THRESH_LO))[0]
         # image is only valid if such boxes exist
         valid = len(fg_inds) > 0 or len(bg_inds) > 0
-        if cfg.MODEL.MIXTRAIN_ON:
-            valid_kp = cfg.MODEL.KEYPOINTS_ON and entry['has_visible_keypoints']
-            valid_pars = cfg.MODEL.PARSING_ON and entry['has_parsing']
-            valid_uv = cfg.MODEL.UV_ON and cfg.UVRCNN.UV_IMS and entry['has_uv']
-            valid = valid and (valid_kp or valid_pars or valid_uv)
-        else:
-            if cfg.MODEL.KEYPOINTS_ON:
-                # If we're training for keypoints, exclude images with no keypoints
-                valid = valid and entry['has_visible_keypoints']
-            if cfg.MODEL.PARSING_ON:
-                # Exclude images with no parsing
-                valid = valid and entry['has_parsing']
-            if cfg.MODEL.UV_ON and cfg.UVRCNN.UV_IMS:
-                # Exclude images with no uv
-                valid = valid and entry['has_uv']
+        
+        if cfg.MODEL.KEYPOINTS_ON:
+            # If we're training for keypoints, exclude images with no keypoints
+            valid = valid and entry['has_visible_keypoints']
+        if cfg.MODEL.PARSING_ON:
+            # Exclude images with no parsing
+            valid = valid and entry['has_parsing']
+        if cfg.MODEL.UV_ON and cfg.UVRCNN.UV_IMS:
+            # Exclude images with no uv
+            valid = valid and entry['has_uv']
         return valid
 
     num = len(roidb)

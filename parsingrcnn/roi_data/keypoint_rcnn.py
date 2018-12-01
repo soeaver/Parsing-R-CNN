@@ -35,8 +35,65 @@ def add_keypoint_rcnn_blobs(blobs, roidb, fg_rois_per_image, fg_inds, im_scale,
     """Add Mask R-CNN keypoint specific blobs to the given blobs dictionary."""
     # Note: gt_inds must match how they're computed in
     # datasets.json_dataset._merge_proposal_boxes_into_roidb
-    if cfg.MODEL.MIXTRAIN_ON and not roidb['has_visible_keypoints']:
+    gt_inds = np.where(roidb['gt_classes'] > 0)[0]
+    max_overlaps = roidb['max_overlaps']
+    gt_keypoints = roidb['gt_keypoints']
+
+    ind_kp = gt_inds[roidb['box_to_gt_ind_map']]
+    within_box = _within_box(gt_keypoints[ind_kp, :, :], roidb['boxes'])
+    vis_kp = gt_keypoints[ind_kp, 2, :] > 0
+    is_visible = np.sum(np.logical_and(vis_kp, within_box), axis=1) > 0
+    kp_fg_inds = np.where(
+        np.logical_and(max_overlaps >= cfg.TRAIN.FG_THRESH, is_visible))[0]
+
+    if kp_fg_inds.size > 0:
+        kp_fg_rois_per_this_image = np.minimum(fg_rois_per_image, kp_fg_inds.size)
+        if cfg.KRCNN.ROI_BATCH_SIZE > 0:
+            kp_fg_rois_per_this_image = np.minimum(kp_fg_rois_per_this_image, cfg.KRCNN.ROI_BATCH_SIZE)
+        if kp_fg_inds.size > kp_fg_rois_per_this_image:
+            kp_fg_inds = np.random.choice(
+                kp_fg_inds, size=kp_fg_rois_per_this_image, replace=False
+            )
+
+        sampled_fg_rois = roidb['boxes'][kp_fg_inds]
+        box_to_gt_ind_map = roidb['box_to_gt_ind_map'][kp_fg_inds]
+
+        num_keypoints = gt_keypoints.shape[2]
+        sampled_keypoints = -np.ones(
+            (len(sampled_fg_rois), gt_keypoints.shape[1], num_keypoints),
+            dtype=gt_keypoints.dtype
+        )
+        for ii in range(len(sampled_fg_rois)):
+            ind = box_to_gt_ind_map[ii]
+            if ind >= 0:
+                sampled_keypoints[ii, :, :] = gt_keypoints[gt_inds[ind], :, :]
+                assert np.sum(sampled_keypoints[ii, 2, :]) > 0
+
+        if cfg.KRCNN.GAUSS_HEATMAP:
+            heats, weights = keypoint_utils.keypoints_to_gauss_heatmap_labels(
+                sampled_keypoints, sampled_fg_rois
+            )
+            shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS)
+            shape_heats = (
+                sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 
+                cfg.KRCNN.HEATMAP_SIZE, cfg.KRCNN.HEATMAP_SIZE
+            )
+            
+            heats = heats.reshape(shape_heats)
+            weights = weights.reshape(shape)
+        else:
+            heats, weights = keypoint_utils.keypoints_to_heatmap_labels(
+                sampled_keypoints, sampled_fg_rois
+            )
+
+            shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 1)
+            heats = heats.reshape(shape)
+            weights = weights.reshape(shape)
+    else:  # If there are no fg masks (it does happen)
+        # The network cannot handle empty blobs, so we must provide a kp
+        # We simply take the first bg roi.
         kp_bg_inds = np.where(blobs['labels_int32'] == 0)[0]
+        # rois_fg is actually one background roi, but that's ok because ...
         if(len(kp_bg_inds)==0):
             sampled_fg_rois = roidb['boxes'][0].reshape((1, -1))
         else:
@@ -54,83 +111,6 @@ def add_keypoint_rcnn_blobs(blobs, roidb, fg_rois_per_image, fg_inds, im_scale,
             shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 1)
             heats = blob_utils.zeros(shape)
             weights = blob_utils.zeros(shape)
-    else:  
-        gt_inds = np.where(roidb['gt_classes'] > 0)[0]
-        max_overlaps = roidb['max_overlaps']
-        gt_keypoints = roidb['gt_keypoints']
-
-        ind_kp = gt_inds[roidb['box_to_gt_ind_map']]
-        within_box = _within_box(gt_keypoints[ind_kp, :, :], roidb['boxes'])
-        vis_kp = gt_keypoints[ind_kp, 2, :] > 0
-        is_visible = np.sum(np.logical_and(vis_kp, within_box), axis=1) > 0
-        kp_fg_inds = np.where(
-            np.logical_and(max_overlaps >= cfg.TRAIN.FG_THRESH, is_visible))[0]
-
-        if kp_fg_inds.size > 0:
-            kp_fg_rois_per_this_image = np.minimum(fg_rois_per_image, kp_fg_inds.size)
-            if cfg.KRCNN.ROI_BATCH_SIZE > 0:
-                kp_fg_rois_per_this_image = np.minimum(kp_fg_rois_per_this_image, cfg.KRCNN.ROI_BATCH_SIZE)
-            if kp_fg_inds.size > kp_fg_rois_per_this_image:
-                kp_fg_inds = np.random.choice(
-                    kp_fg_inds, size=kp_fg_rois_per_this_image, replace=False
-                )
-
-            sampled_fg_rois = roidb['boxes'][kp_fg_inds]
-            box_to_gt_ind_map = roidb['box_to_gt_ind_map'][kp_fg_inds]
-
-            num_keypoints = gt_keypoints.shape[2]
-            sampled_keypoints = -np.ones(
-                (len(sampled_fg_rois), gt_keypoints.shape[1], num_keypoints),
-                dtype=gt_keypoints.dtype
-            )
-            for ii in range(len(sampled_fg_rois)):
-                ind = box_to_gt_ind_map[ii]
-                if ind >= 0:
-                    sampled_keypoints[ii, :, :] = gt_keypoints[gt_inds[ind], :, :]
-                    assert np.sum(sampled_keypoints[ii, 2, :]) > 0
-
-            if cfg.KRCNN.GAUSS_HEATMAP:
-                heats, weights = keypoint_utils.keypoints_to_gauss_heatmap_labels(
-                    sampled_keypoints, sampled_fg_rois
-                )
-                shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS)
-                shape_heats = (
-                    sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 
-                    cfg.KRCNN.HEATMAP_SIZE, cfg.KRCNN.HEATMAP_SIZE
-                )
-                
-                heats = heats.reshape(shape_heats)
-                weights = weights.reshape(shape)
-            else:
-                heats, weights = keypoint_utils.keypoints_to_heatmap_labels(
-                    sampled_keypoints, sampled_fg_rois
-                )
-
-                shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 1)
-                heats = heats.reshape(shape)
-                weights = weights.reshape(shape)
-        else:  # If there are no fg masks (it does happen)
-            # The network cannot handle empty blobs, so we must provide a kp
-            # We simply take the first bg roi.
-            kp_bg_inds = np.where(blobs['labels_int32'] == 0)[0]
-            # rois_fg is actually one background roi, but that's ok because ...
-            if(len(kp_bg_inds)==0):
-                sampled_fg_rois = roidb['boxes'][0].reshape((1, -1))
-            else:
-                sampled_fg_rois = roidb['boxes'][kp_bg_inds[0]].reshape((1, -1))
-
-            if cfg.KRCNN.GAUSS_HEATMAP:
-                shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS)
-                shape_heats = (
-                    sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 
-                    cfg.KRCNN.HEATMAP_SIZE, cfg.KRCNN.HEATMAP_SIZE
-                )
-                heats = blob_utils.zeros(shape_heats)
-                weights = blob_utils.zeros(shape)
-            else:
-                shape = (sampled_fg_rois.shape[0] * cfg.KRCNN.NUM_KEYPOINTS, 1)
-                heats = blob_utils.zeros(shape)
-                weights = blob_utils.zeros(shape)
 
     sampled_fg_rois *= im_scale
     repeated_batch_idx = batch_idx * blob_utils.ones((sampled_fg_rois.shape[0],

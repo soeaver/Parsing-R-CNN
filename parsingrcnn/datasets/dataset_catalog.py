@@ -340,7 +340,6 @@ _DATASETS = {
         _ANN_FN:
             _DATA_DIR + '/SBD/annotations/SBD_val.json',
     },
-
     'SBD_train-2': {  # new addition by wzh
         _IM_DIR:
             _DATA_DIR + '/SBD/img',
@@ -352,30 +351,6 @@ _DATASETS = {
             _DATA_DIR + '/SBD/img',
         _ANN_FN:
             _DATA_DIR + '/SBD/annotations/SBD_val-2.json',
-    },
-    'chip_train': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/chip/images',
-        _ANN_FN:
-            _DATA_DIR + '/chip/annotations/chip_train.json',
-    },
-    'chip_val': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/chip/images',
-        _ANN_FN:
-            _DATA_DIR + '/chip/annotations/chip_val.json',
-    },
-    'commodity_train': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/commodity/img',
-        _ANN_FN:
-            _DATA_DIR + '/commodity/annotations/commodity_train.json',
-    },
-    'commodity_val': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/commodity/img',
-        _ANN_FN:
-            _DATA_DIR + '/commodity/annotations/commodity_val.json',
     },
     'CIHP_train': {  # new addition by wzh
         _IM_DIR:
@@ -466,96 +441,6 @@ _DATASETS = {
             _DATA_DIR + '/MHP-v2',
         _FSEG_DIR:
             _DATA_DIR + '/MHP-v2',
-    },
-    'PG_0710_train': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/PG_0710/img',
-        _ANN_FN:
-            _DATA_DIR + '/PG_0710/annotations/PG_0710_train.json',
-    },
-    'PG_0710_val': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/PG_0710/img',
-        _ANN_FN:
-            _DATA_DIR + '/PG_0710/annotations/PG_0710_val.json',
-    },
-    'ppp_v01_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_personpart/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_personpart/Json_Annos/privpersonpart_train.json',
-    },
-    'ppp_v01_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_personpart/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_personpart/Json_Annos/privpersonpart_val.json',
-    },
-    'privcellphone_coco2017_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_cellphone/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_cellphone/Json_Annos/privcellphone_coco2017_train.json',
-    },
-    'privcellphone_coco2017_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_cellphone/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_cellphone/Json_Annos/privcellphone_coco2017_val.json',
-    },
-    'privcellphone_photo_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_cellphone/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_cellphone/Json_Annos/privcellphone_photo_train.json',
-    },
-    'privcellphone_photo_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_cellphone/Images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_cellphone/Json_Annos/privcellphone_photo_val.json',
-    },
-    'WIDER_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Wider_Face/WIDER_train',
-        _ANN_FN:
-            _DATA_DIR + '/Wider_Face/Json_Annos/WIDER_train.json',
-    },
-    'WIDER_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Wider_Face/WIDER_val',
-        _ANN_FN:
-            _DATA_DIR + '/Wider_Face/Json_Annos/WIDER_val.json',
-    },
-    'FDDB': {  # new addition by wzh
-        _IM_DIR:
-            _DATA_DIR + '/FDDB',
-        _ANN_FN:
-            _DATA_DIR + '/FDDB/Annotations/FDDB.json',
-    },
-    'PSV_car_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_shanxivehicle/images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_shanxivehicle/annotations/Priv_shanxi_car_train.json',
-    },
-    'PSV_car_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/Priv_shanxivehicle/images',
-        _ANN_FN:
-            _DATA_DIR + '/Priv_shanxivehicle/annotations/Priv_shanxi_car_val.json',
-    },
-    'OIDv4_face_train': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/OIDv4/images/train',
-        _ANN_FN:
-            _DATA_DIR + '/OIDv4/Json_Annos/OID_face_train.json',
-    },
-    'OIDv4_face_val': {  # new addition by soeaver
-        _IM_DIR:
-            _DATA_DIR + '/OIDv4/images/train',
-        _ANN_FN:
-            _DATA_DIR + '/OIDv4/Json_Annos/OID_face_val.json',
     }
 }
 

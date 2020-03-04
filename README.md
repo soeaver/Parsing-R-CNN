@@ -9,7 +9,7 @@ If you use Parsing R-CNN, please use the following BibTeX entry.
 @inproceedings{yang2019cvpr,
   title = {Parsing R-CNN for Instance-Level Human Analysis},
   author = {Lu Yang and Qing Song and Zhihui Wang and Ming Jiang},
-  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
   year = {2019}
 }
 

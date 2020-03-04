@@ -85,4 +85,4 @@ python tools/test_net.py --cfg ckpts/CIHP/e2e_rp_rcnn_R-50-FPN_3x_ms/e2e_rp_rcnn
 
 
 ## License
-Parsing-R-CNN is released under the [MIT license](https://github.com/soeaver/RP-R-CNN/blob/master/LICENSE).
+Parsing-R-CNN is released under the [MIT license](https://github.com/soeaver/Parsing-R-CNN/blob/master/LICENSE).

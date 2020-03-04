@@ -1,12 +1,26 @@
-# RP-R-CNN
-Official implementation of **Renovating Parsing R-CNN for Accurate Multiple Human Parsing (under review)**
+# Parsing-R-CNN
+**(New!)** Official implementation of **Parsing R-CNN for Instance-Level Human Analysis (CVPR 2019)**
 
-In this repository, we release the RP R-CNN code in Pytorch.
+## Citing Parsing R-CNN
 
-- RP R-CNN architecture:
-<p align="center"><img width="90%" src="data/rp_rcnn.png" /></p>
+If you use Parsing R-CNN, please use the following BibTeX entry.
 
-- RP R-CNN output:
+```BibTeX
+@inproceedings{yang2019cvpr,
+  title = {Parsing R-CNN for Instance-Level Human Analysis},
+  author = {Lu Yang and Qing Song and Zhihui Wang and Ming Jiang},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  year = {2019}
+}
+
+```
+
+In this repository, we release the Parsing R-CNN code in Pytorch.
+
+- Parsing R-CNN architecture:
+<p align="center"><img width="90%" src="data/parsing_rcnn.png" /></p>
+
+- Parsing R-CNN output:
 <p align="center"><img width="75%" src="data/output.png" /></p>
 
 
@@ -15,7 +29,7 @@ In this repository, we release the RP R-CNN code in Pytorch.
 - pytorch1.1
 - python3.6.8
 
-Install RP R-CNN following [INSTALL.md](https://github.com/soeaver/RP-R-CNN/blob/master/INSTALL.md#install).
+Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-R-CNN/blob/master/INSTALL.md#install).
 
 
 ## Results and Models
@@ -45,6 +59,7 @@ Install RP R-CNN following [INSTALL.md](https://github.com/soeaver/RP-R-CNN/blob
 **ImageNet pretrained weight**
 
 - [R-50](https://drive.google.com/open?id=1EtqFhrFTdBJNbp67effArVrTNx4q_ELr)
+- [R-50-GN](https://drive.google.com/open?id=1EtqFhrFTdBJNbp67effArVrTNx4q_ELr)
 - [X-101-32x8d](https://drive.google.com/open?id=1c4OSVZIZtDT49B0DTC0tK3vcRgJpzR9n)
 
 
@@ -70,4 +85,4 @@ python tools/test_net.py --cfg ckpts/CIHP/e2e_rp_rcnn_R-50-FPN_3x_ms/e2e_rp_rcnn
 
 
 ## License
-RP-R-CNN is released under the [MIT license](https://github.com/soeaver/RP-R-CNN/blob/master/LICENSE).
+Parsing-R-CNN is released under the [MIT license](https://github.com/soeaver/RP-R-CNN/blob/master/LICENSE).

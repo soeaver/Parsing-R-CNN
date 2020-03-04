@@ -21,7 +21,7 @@ In this repository, we release the Parsing R-CNN code in Pytorch.
 <p align="center"><img width="90%" src="data/parsing_rcnn.png" /></p>
 
 - Parsing R-CNN output:
-<p align="center"><img width="75%" src="data/output.png" /></p>
+<p align="center"><img width="90%" src="data/output.png" /></p>
 
 
 ## Installation

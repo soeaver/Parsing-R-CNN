@@ -7,4 +7,4 @@ Cython
 scipy
 six
 scikit-image
-Pillow==6.1.0 
+Pillow==6.2.0 

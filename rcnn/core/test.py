@@ -15,50 +15,39 @@ from rcnn.core.config import cfg
 def im_detect_bbox(model, ims):
     box_results = [[] for _ in range(len(ims))]
     features = []
-    semseg_pred_results = []
-    results, net_imgs_size, blob_conv, semseg_pred = im_detect_bbox_net(model, ims, cfg.TEST.SCALE, cfg.TEST.MAX_SIZE)
+    results, net_imgs_size, blob_conv = im_detect_bbox_net(model, ims, cfg.TEST.SCALE, cfg.TEST.MAX_SIZE)
     if cfg.RPN.RPN_ONLY:
         return results, None
     add_results(box_results, results)
     features.append((net_imgs_size, blob_conv))
-    semseg_pred_results.append(semseg_pred)
 
     if cfg.TEST.BBOX_AUG.ENABLED:
         if cfg.TEST.BBOX_AUG.H_FLIP:
-            results_hf, net_imgs_size_hf, blob_conv_hf, semseg_pred_hf = im_detect_bbox_net(
+            results_hf, net_imgs_size_hf, blob_conv_hf = im_detect_bbox_net(
                 model, ims, cfg.TEST.SCALE, cfg.TEST.MAX_SIZE, True, net_imgs_size
             )
             add_results(box_results, results_hf)
             features.append((net_imgs_size_hf, blob_conv_hf))
-            semseg_pred_results.append(semseg_pred_hf)
 
         for scale in cfg.TEST.BBOX_AUG.SCALES:
             max_size = cfg.TEST.BBOX_AUG.MAX_SIZE
-            results_scl, net_imgs_size_scl, blob_conv_scl, semseg_pred_scl = im_detect_bbox_net(
+            results_scl, net_imgs_size_scl, blob_conv_scl = im_detect_bbox_net(
                 model, ims, scale, max_size, False, net_imgs_size
             )
             add_results(box_results, results_scl)
             features.append((net_imgs_size_scl, blob_conv_scl))
-            semseg_pred_results.append(semseg_pred_scl)
 
             if cfg.TEST.BBOX_AUG.H_FLIP:
-                results_scl_hf, net_imgs_size_scl_hf, blob_conv_scl_hf, semseg_pred_scl_hf = im_detect_bbox_net(
+                results_scl_hf, net_imgs_size_scl_hf, blob_conv_scl_hf = im_detect_bbox_net(
                     model, ims, scale, max_size, True, net_imgs_size
                 )
                 add_results(box_results, results_scl_hf)
                 features.append((net_imgs_size_scl_hf, blob_conv_scl_hf))
-                semseg_pred_results.append(semseg_pred_scl_hf)
 
     box_results = [cat_boxlist(result) for result in box_results]
 
     if cfg.MODEL.FASTER_ON:
         box_results = [filter_results(result) for result in box_results]
-
-    if cfg.MODEL.SEMSEG_ON:
-        semseg_pred_results = np.asarray(semseg_pred_results).transpose((1, 0, 2, 3, 4))
-        for i in range(len(box_results)):
-            semseg_pred = np.mean(semseg_pred_results[i], axis=0)
-            box_results[i].add_field("semseg", semseg_pred)
 
     return box_results, features
 
@@ -316,17 +305,7 @@ def im_detect_bbox_net(model, ims, target_scale, target_max_size, flip=False, si
     net_imgs_size = []
     results = []
     ims_blob = get_blob(ims, target_scale, target_max_size, flip)
-    blob_conv, _results, semseg_pred = model.box_net(ims_blob)
-
-    if cfg.MODEL.SEMSEG_ON:
-        semseg_pred = semseg_pred.cpu().numpy()
-        if flip:
-            semseg_pred = flip_parsing_featuremap(semseg_pred)
-        semseg_pred = semseg_pred.transpose((0, 2, 3, 1))
-        im_h, im_w = ims[0].shape[0:2]
-        semseg_pred_resized = [cv2.resize(pred, (im_w, im_h), interpolation=cv2.INTER_LINEAR) for pred in semseg_pred]
-    else:
-        semseg_pred_resized = None
+    blob_conv, _results = model.box_net(ims_blob)
 
     for i, im_result in enumerate(_results):
         net_img_size = im_result.size
@@ -348,7 +327,7 @@ def im_detect_bbox_net(model, ims, target_scale, target_max_size, flip=False, si
             im_result = im_result.resize(size[i])
         results.append(im_result)
 
-    return results, net_imgs_size, blob_conv, semseg_pred_resized
+    return results, net_imgs_size, blob_conv
 
 
 def add_results(all_results, results):

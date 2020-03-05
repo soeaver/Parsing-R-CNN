@@ -1,10 +1,10 @@
 from torch import nn
 from torch.nn import functional as F
 
-from pet.utils.net import make_conv
-from pet.rcnn.utils.poolers import Pooler
-from pet.rcnn.modeling import registry
-from pet.rcnn.core.config import cfg
+from utils.net import make_conv
+from rcnn.utils.poolers import Pooler
+from rcnn.modeling import registry
+from rcnn.core.config import cfg
 
 
 @registry.ROI_UV_HEADS.register("roi_convx_head")

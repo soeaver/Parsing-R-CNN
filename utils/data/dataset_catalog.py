@@ -36,6 +36,48 @@ COMMON_DATASETS = {
         _ANN_FN:
             _DATA_DIR + '/coco/annotations/image_info_test-dev2017.json',
     },
+    'keypoints_coco_2017_train': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/train2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/person_keypoints_train2017.json'
+    },
+    'keypoints_coco_2017_val': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/val2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/person_keypoints_val2017.json'
+    },
+    'keypoints_coco_2017_test': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/test2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/image_info_test2017.json'
+    },
+    'keypoints_coco_2017_test-dev': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/test2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/image_info_test-dev2017.json',
+    },
+    'dense_coco_2017_train': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/train2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/DensePoseData/densepose_coco_train2017.json',
+    },
+    'dense_coco_2017_val': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/val2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/DensePoseData/densepose_coco_val2017.json',
+    },
+    'dense_coco_2017_test': {
+        _IM_DIR:
+            _DATA_DIR + '/coco/images/test2017',
+        _ANN_FN:
+            _DATA_DIR + '/coco/annotations/DensePoseData/densepose_coco_test.json',
+    },
     'CIHP_train': {  # new addition by wzh
         _IM_DIR:
             _DATA_DIR + '/CIHP/train_img',

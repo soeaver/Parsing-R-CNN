@@ -7,7 +7,6 @@ from utils.data.structures.image_list import to_image_list
 import models.ops as ops
 import rcnn.modeling.backbone
 import rcnn.modeling.fpn
-from rcnn.modeling.semseg.semseg import SemSeg
 from rcnn.modeling.rpn.rpn import build_rpn
 from rcnn.modeling.fast_rcnn.fast_rcnn import FastRCNN
 from rcnn.modeling.cascade_rcnn.cascade_rcnn import CascadeRCNN
@@ -44,10 +43,6 @@ class Generalized_RCNN(nn.Module):
         else:
             self.dim_in = self.dim_in[-1:]
             self.spatial_scale = self.spatial_scale[-1:]
-
-        # Semantic Segmentation Network
-        if cfg.MODEL.SEMSEG_ON:
-            self.SemSeg = SemSeg(self.dim_in, self.spatial_scale)
             
         # Region Proposal Network
         if cfg.MODEL.RPN_ON:
@@ -108,12 +103,6 @@ class Generalized_RCNN(nn.Module):
         else:
             conv_features = [conv_features[-1]]
 
-        # SemSeg
-        semseg_losses = {}
-        if cfg.MODEL.SEMSEG_ON:
-            _, conv_features, loss_semseg = self.SemSeg(conv_features, targets)
-            semseg_losses.update(loss_semseg)
-            
         # RPN
         proposal_losses = {}
         if cfg.MODEL.RPN_ON:
@@ -152,7 +141,6 @@ class Generalized_RCNN(nn.Module):
         if self.training:
             outputs = {'metrics': {}, 'losses': {}}
             outputs['losses'].update(proposal_losses)
-            outputs['losses'].update(semseg_losses)
             outputs['losses'].update(roi_losses)
             return outputs
 
@@ -168,11 +156,6 @@ class Generalized_RCNN(nn.Module):
         else:
             conv_features = [conv_features[-1]]
 
-        if cfg.MODEL.SEMSEG_ON:
-            semseg_pred, conv_features, loss_semseg = self.SemSeg(conv_features, targets)
-        else:
-            semseg_pred = None
-
         if cfg.MODEL.RPN_ON:
             proposals, proposal_losses = self.RPN(images, conv_features, targets)
         else:
@@ -186,7 +169,7 @@ class Generalized_RCNN(nn.Module):
         else:
             result = proposals
 
-        return conv_features, result, semseg_pred
+        return conv_features, result
 
     def mask_net(self, conv_features, result, targets=None):
         if len(result[0]) == 0:

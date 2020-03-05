@@ -46,12 +46,9 @@ class ParsingPostProcessor(nn.Module):
 
             for field in box.fields():
                 bbox.add_field(field, box.get_field(field))
-            if cfg.PRCNN.PARSINGIOU_ON:
-                bbox.add_field("parsing", prob)
-            else:
-                bbox_scores = bbox.get_field("scores")
-                bbox.add_field("parsing", prob.cpu().numpy())
-                bbox.add_field("parsing_scores", bbox_scores.cpu().numpy())
+            bbox_scores = bbox.get_field("scores")
+            bbox.add_field("parsing", prob.cpu().numpy())
+            bbox.add_field("parsing_scores", bbox_scores.cpu().numpy())
             results.append(bbox)
 
         return results

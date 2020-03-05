@@ -54,12 +54,9 @@ class MaskPostProcessor(nn.Module):
             bbox = BoxList(box.bbox, box.size, mode="xyxy")
             for field in box.fields():
                 bbox.add_field(field, box.get_field(field))
-            if cfg.MRCNN.MASKIOU_ON:
-                bbox.add_field("mask", prob)
-            else:
-                bbox_scores = bbox.get_field("scores")
-                bbox.add_field("mask", prob.cpu().numpy())
-                bbox.add_field("mask_scores", bbox_scores.cpu().numpy())
+            bbox_scores = bbox.get_field("scores")
+            bbox.add_field("mask", prob.cpu().numpy())
+            bbox.add_field("mask_scores", bbox_scores.cpu().numpy())
             results.append(bbox)
 
         return results

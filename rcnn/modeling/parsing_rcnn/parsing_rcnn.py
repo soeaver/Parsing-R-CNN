@@ -4,7 +4,6 @@ from rcnn.modeling.parsing_rcnn import heads
 from rcnn.modeling.parsing_rcnn import outputs
 from rcnn.modeling.parsing_rcnn.inference import parsing_post_processor
 from rcnn.modeling.parsing_rcnn.loss import parsing_loss_evaluator
-from rcnn.modeling.parsing_rcnn.parsingiou.parsingiou import ParsingIoU
 from rcnn.modeling import registry
 from rcnn.core.config import cfg
 
@@ -24,9 +23,6 @@ class ParsingRCNN(torch.nn.Module):
 
         self.post_processor = parsing_post_processor()
         self.loss_evaluator = parsing_loss_evaluator()
-
-        if cfg.PRCNN.PARSINGIOU_ON:
-            self.ParsingIoU = ParsingIoU(self.Head.dim_out)
 
     def forward(self, conv_features, proposals, targets=None):
         """
@@ -55,23 +51,12 @@ class ParsingRCNN(torch.nn.Module):
         x, roi_feature = self.Head(conv_features, proposals)
         parsing_logits = self.Output(x)
 
-        if cfg.PRCNN.PARSINGIOU_ON:
-            loss_parsing, parsingiou_targets = self.loss_evaluator(parsing_logits)
-            loss_parsingiou, all_proposals = self.ParsingIoU(
-                x, all_proposals, parsing_logits, parsingiou_targets
-            )
-            return x, all_proposals, dict(loss_parsing=loss_parsing, loss_parsingiou=loss_parsingiou)
-        else:
-            loss_parsing = self.loss_evaluator(parsing_logits)
-            return x, all_proposals, dict(loss_parsing=loss_parsing)
+        loss_parsing = self.loss_evaluator(parsing_logits)
+        return x, all_proposals, dict(loss_parsing=loss_parsing)
 
     def _forward_test(self, conv_features, proposals):
         x, roi_feature = self.Head(conv_features, proposals)
         parsing_logits = self.Output(x)
 
         result = self.post_processor(parsing_logits, proposals)
-        if cfg.PRCNN.PARSINGIOU_ON:
-            _, result = self.ParsingIoU(x, result, parsing_logits, None)
-            return x, result, {}
-        else:
-            return x, result, {}
+        return x, result, {}

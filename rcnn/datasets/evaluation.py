@@ -236,12 +236,11 @@ def prepare_parsing_results(results, image_ids, dataset):
         image_width = img_info["width"]
         image_height = img_info["height"]
         result = result.resize((image_width, image_height))
-        semseg = result.get_field("semseg") if cfg.MODEL.SEMSEG_ON else None
         parsing = result.get_field("parsing")
-        parsing = parsing_results(parsing, result, semseg=semseg)
+        parsing = parsing_results(parsing, result, semseg=None)
         scores = result.get_field("parsing_scores")
         parsing_png(
-            parsing, scores, cfg.PRCNN.SEMSEG_SCORE_THRESH, img_info, output_folder, semseg=semseg
+            parsing, scores, cfg.PRCNN.SEMSEG_SCORE_THRESH, img_info, output_folder, semseg=None
         )
         all_parsing.append(parsing)
         all_scores.append(scores)
@@ -304,10 +303,10 @@ def evaluate_predictions_on_coco(coco_gt, coco_results, json_result_file, iou_ty
             pickle.dump(coco_results, f, 2)
         if cfg.TEST.DATASETS[0].find('test') > -1:
             return
-        evalDataDir = os.path.dirname(__file__) + cfg.DATA_DIR + '/DensePoseData/eval_data/'
+        eval_data_dir = cfg.DATA_DIR + '/DensePoseData/eval_data/'
         coco_dt = coco_gt.loadRes(coco_results)
         test_sigma = 0.255
-        coco_eval = denseposeCOCOeval(evalDataDir, coco_gt, coco_dt, iou_type, test_sigma)
+        coco_eval = denseposeCOCOeval(eval_data_dir, coco_gt, coco_dt, iou_type, test_sigma)
         coco_eval.evaluate(calc_mode=calc_mode)
     coco_eval.accumulate()
     if iou_type == "bbox":
@@ -393,7 +392,7 @@ class COCOResults(object):
         if coco_eval is None:
             return
 
-        assert isinstance(coco_eval, COCOeval)
+        assert isinstance(coco_eval, (COCOeval, denseposeCOCOeval))
         s = coco_eval.stats
         iou_type = coco_eval.params.iouType
         res = self.results[iou_type]

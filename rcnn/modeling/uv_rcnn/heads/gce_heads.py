@@ -1,11 +1,11 @@
 import torch
 from torch import nn
 
-from pet.models.ops import interpolate, NonLocal2d
-from pet.rcnn.core.config import cfg
-from pet.rcnn.modeling import registry
-from pet.rcnn.utils.poolers import Pooler
-from pet.utils.net import make_conv
+from models.ops import interpolate, NonLocal2d
+from rcnn.core.config import cfg
+from rcnn.modeling import registry
+from rcnn.utils.poolers import Pooler
+from utils.net import make_conv
 
 
 @registry.ROI_UV_HEADS.register("roi_gce_head")

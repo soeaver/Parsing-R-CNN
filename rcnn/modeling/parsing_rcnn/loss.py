@@ -50,7 +50,7 @@ def project_parsing_on_boxes(parsing, proposals, resolution):
 
 
 class ParsingRCNNLossComputation(object):
-    def __init__(self, proposal_matcher, resolution, parsingiou_on):
+    def __init__(self, proposal_matcher, resolution):
         """
         Arguments:
             proposal_matcher (Matcher)
@@ -58,7 +58,6 @@ class ParsingRCNNLossComputation(object):
         """
         self.proposal_matcher = proposal_matcher
         self.resolution = resolution
-        self.parsingiou_on = parsingiou_on
 
         self.across_sample = cfg.PRCNN.ACROSS_SAMPLE
         self.roi_size_per_img = cfg.PRCNN.ROI_SIZE_PER_IMG
@@ -124,33 +123,14 @@ class ParsingRCNNLossComputation(object):
         parsing_targets = cat(parsing_targets, dim=0)
 
         if parsing_targets.numel() == 0:
-            if not self.parsingiou_on:
-                return parsing_logits.sum() * 0
-            else:
-                return parsing_logits.sum() * 0, None
-
-        if self.parsingiou_on:
-            # TODO: use tensor for speeding up
-            pred_parsings_np = parsing_logits.detach().argmax(dim=1).cpu().numpy()
-            parsing_targets_np = parsing_targets.cpu().numpy()
-
-            N = parsing_targets_np.shape[0]
-            parsingiou_targets = np.zeros(N, dtype=np.float)
-
-            for _ in range(N):
-                parsing_iou = cal_one_mean_iou(parsing_targets_np[_], pred_parsings_np[_], cfg.PRCNN.NUM_PARSING)
-                parsingiou_targets[_] = np.nanmean(parsing_iou)
-            parsingiou_targets = torch.from_numpy(parsingiou_targets).to(parsing_targets.device, dtype=torch.float)
+            return parsing_logits.sum() * 0
 
         parsing_loss = F.cross_entropy(
             parsing_logits, parsing_targets, reduction="mean"
         )
         parsing_loss *= cfg.PRCNN.LOSS_WEIGHT
 
-        if not self.parsingiou_on:
-            return parsing_loss
-        else:
-            return parsing_loss, parsingiou_targets
+        return parsing_loss
 
 
 def parsing_loss_evaluator():
@@ -161,6 +141,6 @@ def parsing_loss_evaluator():
     )
 
     loss_evaluator = ParsingRCNNLossComputation(
-        matcher, cfg.PRCNN.RESOLUTION, cfg.PRCNN.PARSINGIOU_ON
+        matcher, cfg.PRCNN.RESOLUTION
     )
     return loss_evaluator

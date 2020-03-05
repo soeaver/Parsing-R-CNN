@@ -5,7 +5,6 @@ from rcnn.modeling.mask_rcnn import heads
 from rcnn.modeling.mask_rcnn import outputs
 from rcnn.modeling.mask_rcnn.inference import mask_post_processor
 from rcnn.modeling.mask_rcnn.loss import mask_loss_evaluator
-from rcnn.modeling.mask_rcnn.maskiou.maskiou import MaskIoU
 from rcnn.modeling import registry
 from rcnn.core.config import cfg
 
@@ -25,9 +24,6 @@ class MaskRCNN(torch.nn.Module):
 
         self.post_processor = mask_post_processor()
         self.loss_evaluator = mask_loss_evaluator()
-
-        if cfg.MRCNN.MASKIOU_ON:
-            self.MaskIoU = MaskIoU(dim_in)
 
     def forward(self, conv_features, proposals, targets=None):
         """
@@ -59,25 +55,12 @@ class MaskRCNN(torch.nn.Module):
         x, roi_feature = self.Head(conv_features, proposals)
         mask_logits = self.Output(x)
 
-        if cfg.MRCNN.MASKIOU_ON:
-            loss_mask, selected_mask, labels, maskiou_targets = self.loss_evaluator(mask_logits)
-            loss_maskiou, all_proposals = self.MaskIoU(
-                roi_feature, all_proposals, selected_mask, labels, maskiou_targets
-            )
-            return x, all_proposals, dict(loss_mask=loss_mask, loss_maskiou=loss_maskiou)
-        else:
-            loss_mask = self.loss_evaluator(mask_logits)
-            return x, all_proposals, dict(loss_mask=loss_mask)
+        loss_mask = self.loss_evaluator(mask_logits)
+        return x, all_proposals, dict(loss_mask=loss_mask)
 
     def _forward_test(self, conv_features, proposals):
         x, roi_feature = self.Head(conv_features, proposals)
         mask_logits = self.Output(x)
 
         result = self.post_processor(mask_logits, proposals)
-        if cfg.MRCNN.MASKIOU_ON:
-            _, result = self.MaskIoU(
-                roi_feature, result, result[0].get_field("mask"), result[0].get_field("labels"), None
-            )
-            return x, result, {}
-        else:
-            return x, result, {}
+        return x, result, {}

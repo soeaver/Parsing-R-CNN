@@ -10,10 +10,6 @@ BACKBONES = Registry()
 # FPN
 FPN_BODY = Registry()
 
-# SEMSEG
-ROI_SEMSEG_HEADS = Registry()
-ROI_SEMSEG_OUTPUTS = Registry()
-
 
 """
 ROI Head.
@@ -31,8 +27,6 @@ ROI_CASCADE_OUTPUTS = Registry()
 # Mask Head
 ROI_MASK_HEADS = Registry()
 ROI_MASK_OUTPUTS = Registry()
-MASKIOU_HEADS = Registry()
-MASKIOU_OUTPUTS = Registry()
 
 # Keypoint Head
 ROI_KEYPOINT_HEADS = Registry()

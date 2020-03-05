@@ -66,12 +66,12 @@ class denseposeCOCOeval:
     # Code written by Piotr Dollar and Tsung-Yi Lin, 2015.
     # Licensed under the Simplified BSD License [see coco/license.txt]
     def __init__(self, evalDataDir, cocoGt=None, cocoDt=None, iouType='segm', sigma=1.):
-        '''
+        """
         Initialize CocoEval using coco APIs for gt and dt
         :param cocoGt: coco object with ground truth annotations
         :param cocoDt: coco object with detection results
         :return: None
-        '''
+        """
         if not iouType:
             print('iouType not specified. use default iouType segm')
         self.evalDataDir = evalDataDir

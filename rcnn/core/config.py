@@ -47,6 +47,7 @@ __C.EPS = 1e-14
 # Convert image to BGR format (for Caffe2 models), in range 0-255
 __C.TO_BGR255 = True
 
+
 # ---------------------------------------------------------------------------- #
 # Model options
 # ---------------------------------------------------------------------------- #
@@ -59,9 +60,6 @@ __C.MODEL.TYPE = 'generalized_rcnn'
 
 # FPN is enabled if True
 __C.MODEL.FPN_ON = False
-
-# Indicates the model makes semantic segmentation predictions (as in Semantic Segmentation)
-__C.MODEL.SEMSEG_ON = False
 
 # RPN is enabled if True
 # Default is True, if RPN_ON = False means that only training the backbone
@@ -106,6 +104,7 @@ __C.MODEL.NUM_CLASSES = -1
 # for caffe/caffe2 model using BGR channel. Thus if we use pet pretrain weights set 'True', else if use
 # caffe or caffe2 weights set 'False'.
 __C.MODEL.CONV1_RGB2BGR = True
+
 
 # ---------------------------------------------------------------------------- #
 # Solver options
@@ -176,6 +175,7 @@ __C.SOLVER.LOG_LR_CHANGE_THRESHOLD = 1.1
 # Snapshot (model checkpoint) period
 __C.SOLVER.SNAPSHOT_ITERS = 10000
 
+
 # -----------------------------------------------------------------------------
 # DataLoader options
 # -----------------------------------------------------------------------------
@@ -205,6 +205,7 @@ __C.DATALOADER.RFTSAMPLER.REPEAT_THRESHOLD = 0.001
 __C.DATALOADER.RFTSAMPLER.POW = 0.5
 __C.DATALOADER.RFTSAMPLER.MAX_REPEAT_TIMES = 10000.0
 __C.DATALOADER.RFTSAMPLER.MIN_REPEAT_TIMES = 1.0
+
 
 # ---------------------------------------------------------------------------- #
 # Training options
@@ -786,49 +787,6 @@ __C.FPN.HRFPN.USE_BN = False
 # Use GroupNorm in the HRFPN-specific layers
 __C.FPN.HRFPN.USE_GN = False
 
-# ---------------------------------------------------------------------------- #
-# Semantic Segmentation options ("SEMSEG" means Semantic Segmentation)
-# ---------------------------------------------------------------------------- #
-__C.SEMSEG = AttrDict()
-
-# The head of Semantic R-CNN to use
-__C.SEMSEG.ROI_SEMSEG_HEAD = 'fused_head'
-
-# Output module of Semantic R-CNN head
-__C.SEMSEG.ROI_SEMSEG_OUTPUT = 'semseg_output'
-
-# Multi-task loss weight for Semantic
-__C.SEMSEG.SEMSEG_LOSS_WEIGHT = 0.2
-
-# The ignore label
-__C.SEMSEG.SEMSEG_IGNORE_LABEL = 255
-
-# The number of Semantic
-__C.SEMSEG.SEMSEG_NUM_CLASSES = 183
-
-# ---------------------------------------------------------------------------- #
-# Semantic R-CNN semantic head options
-# ---------------------------------------------------------------------------- #
-__C.SEMSEG.SEMSEG_HEAD = AttrDict()
-
-# (p2, p3, p4, p5), 2 means resize all stages like p3
-__C.SEMSEG.SEMSEG_HEAD.FUSION_LEVEL = 2
-
-# Number of Conv layers in the semantic head
-__C.SEMSEG.SEMSEG_HEAD.NUM_CONVS = 4
-
-# Number of input feature stage in the semantic head
-__C.SEMSEG.SEMSEG_HEAD.NUM_IN_STAGE = 5
-
-# Hidden Conv layer dimension
-__C.SEMSEG.SEMSEG_HEAD.CONV_DIM = 256
-
-# Use BatchNorm in the semantic head
-__C.SEMSEG.SEMSEG_HEAD.USE_BN = False
-
-# Use GroupNorm in the semantic head
-__C.SEMSEG.SEMSEG_HEAD.USE_GN = False
-
 
 # ---------------------------------------------------------------------------- #
 # RPN options
@@ -1020,6 +978,7 @@ __C.FAST_RCNN.CONVFC_HEAD.USE_GN = False
 # Use Weight Standardization in the Fast R-CNN convfc head
 __C.FAST_RCNN.CONVFC_HEAD.USE_WS = False
 
+
 # ---------------------------------------------------------------------------- #
 # Cascade R-CNN options
 # ---------------------------------------------------------------------------- #
@@ -1055,6 +1014,7 @@ __C.CASCADE_RCNN.TEST_STAGE = 3
 
 # Use ensemble results for testing
 __C.CASCADE_RCNN.TEST_ENSEMBLE = True
+
 
 # ---------------------------------------------------------------------------- #
 # Mask R-CNN options ("MRCNN" means Mask R-CNN)

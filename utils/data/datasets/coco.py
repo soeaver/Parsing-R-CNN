@@ -10,7 +10,6 @@ import torchvision
 
 from utils.data.structures.bounding_box import BoxList
 from utils.data.structures.segmentation_mask import SegmentationMask
-from utils.data.structures.semantic_segmentation import SemanticSegmentation, get_semseg
 from utils.data.structures.keypoint import PersonKeypoints
 from utils.data.structures.parsing import Parsing, get_parsing, set_flip
 from utils.data.structures.densepose_uv import DenseposeUVs
@@ -109,15 +108,6 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
             masks = [obj["segmentation"] for obj in anno]
             masks = SegmentationMask(masks, img.size, mode='poly')
             target.add_field("masks", masks)
-
-        if 'semseg' in self.ann_types:
-            if 'parsing' in self.ann_types:
-                semsegs_anno = get_semseg(self.root, self.coco.loadImgs(self.ids[idx])[0]['file_name'])
-                semsegs = SemanticSegmentation(semsegs_anno, classes, img.size, mode='pic')
-            else:
-                semsegs_anno = [obj["segmentation"] for obj in anno]
-                semsegs = SemanticSegmentation(semsegs_anno, classes, img.size, mode='poly')
-            target.add_field("semsegs", semsegs)
 
         if 'keypoints' in self.ann_types:
             if anno and "keypoints" in anno[0]:

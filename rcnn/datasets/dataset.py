@@ -34,8 +34,6 @@ def build_dataset(dataset_list, is_train=True, local_rank=0):
         ann_types = ('bbox',)
         if cfg.MODEL.MASK_ON:
             ann_types = ann_types + ('segm',)
-        if cfg.MODEL.SEMSEG_ON:
-            ann_types = ann_types + ('semseg',)
         if cfg.MODEL.KEYPOINT_ON:
             ann_types = ann_types + ('keypoints',)
         if cfg.MODEL.PARSING_ON:

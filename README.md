@@ -39,7 +39,7 @@ Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-
 |  Backbone  |  LR  | Det AP | mIoU |Parsing (APp50/APvol/PCP50) | DOWNLOAD |
 |------------|:----:|:------:|:----:|:--------------------------:| :-------:|
 |  R-50-FPN  |  1x  | 65.8   | 52.8 |      57.2/51.2/55.4        |          |
-|  R-50-FPN  |  3x  | 68.7   | 56.0 |      64.1/54.1/60.7        | [GoogleDrive](https://drive.google.com/open?id=1-nOef31NrjMyZXkK8fJRmPi-aRQJm7dS)|
+|  R-50-FPN  |  3x  | 68.7   | 56.0 |      64.1/54.1/60.7        | [GoogleDrive](https://drive.google.com/open?id=16bASrD7AoCADKzXynIgmdyzmbuzCfAUL)|
 
 
 **On MHP-v2 val**
@@ -47,14 +47,14 @@ Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-
 |  Backbone  |  LR  | Det AP | mIoU |Parsing (APp50/APvol/PCP50) | DOWNLOAD |
 |------------|:----:|:------:|:----:|:--------------------------:| :-------:|
 |  R-50-FPN  |  1x  | 66.5   | 34.0 |      19.9/36.7/32.4        |          |
-|  R-50-FPN  |  3x  | 69.0   | 36.1 |      27.4/40.5/38.3        | [GoogleDrive](https://drive.google.com/open?id=1-nOef31NrjMyZXkK8fJRmPi-aRQJm7dS)|
+|  R-50-FPN  |  3x  | 69.0   | 36.1 |      27.4/40.5/38.3        | [GoogleDrive](https://drive.google.com/open?id=1rbSNP4_DoJdNK4l6KHrthO0x4WOFgHGy)|
 
 
 **On DensePose_COCO val**
 
 |  Backbone  |  LR  | Det AP |UV AP (AP/AP50/AP75/APm/APl)| DOWNLOAD |
 |------------|:----:|:------:|:--------------------------:| :-------:|
-|  R-50-FPN  |  s1x | 57.4   |  59.3/90.5/68.7/56.2/60.8  | [GoogleDrive](https://drive.google.com/open?id=1-nOef31NrjMyZXkK8fJRmPi-aRQJm7dS)|
+|  R-50-FPN  |  s1x | 57.4   |  59.3/90.5/68.7/56.2/60.8  | [GoogleDrive](https://drive.google.com/open?id=1YQygKoOb5SbZWYnF7f9vEpC_NenpMhH5)|
 
 
 - New metric GPSm is adopted for evaluating UV
@@ -63,7 +63,7 @@ Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-
 **ImageNet pretrained weight**
 
 - [R-50](https://drive.google.com/open?id=1EtqFhrFTdBJNbp67effArVrTNx4q_ELr)
-- [R-50-GN](https://drive.google.com/open?id=1EtqFhrFTdBJNbp67effArVrTNx4q_ELr)
+- [R-50-GN](https://drive.google.com/open?id=1LzcVD7aADhXXY32DdtKhaY9hTXaduhlg)
 - [X-101-32x8d](https://drive.google.com/open?id=1c4OSVZIZtDT49B0DTC0tK3vcRgJpzR9n)
 
 

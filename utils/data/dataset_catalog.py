@@ -125,5 +125,17 @@ COMMON_DATASETS = {
             _DATA_DIR + '/MHP-v2/test_img',
         _ANN_FN:
             _DATA_DIR + '/MHP-v2/annotations/MHP-v2_test_inter_top20.json',
+    },
+    'PASCAL-Person-Part_train': {  # new addition by soeaver
+        _IM_DIR:
+            _DATA_DIR + '/PASCAL-Person-Part/train_img',
+        _ANN_FN:
+            _DATA_DIR + '/PASCAL-Person-Part/annotations/pascal_person_part_train.json',
+    },
+    'PASCAL-Person-Part_test': {  # new addition by soeaver
+        _IM_DIR:
+            _DATA_DIR + '/PASCAL-Person-Part/test_img',
+        _ANN_FN:
+            _DATA_DIR + '/PASCAL-Person-Part/annotations/pascal_person_part_test.json',
     }
 }

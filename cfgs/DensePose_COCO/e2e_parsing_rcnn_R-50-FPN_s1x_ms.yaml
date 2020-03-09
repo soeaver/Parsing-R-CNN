@@ -1,28 +1,18 @@
-# bbox_AP: 67.3/92.6/75.5/8.6/48.2/70.2;
-# parsing: (mIoU:58.14/AP50:71.6/APvol:58.3/PCP50:62.2)
+# bbox_AP: 57.4/87.6/62.7/30.3/56.2/70.2;  
+# uv_AP (GPSm): 59.3/90.5/68.7/52.6/60.8;
 PIXEL_MEANS: [102.9801, 115.9465, 122.7717]
 PIXEL_STDS: [1.0, 1.0, 1.0]
-CKPT: 'ckpts/CIHP/e2e_rp_rcnn_R-50-FPN_3x_ms'
+CKPT: 'ckpts/DensePose_COCO/e2e_parsing_rcnn_R-50-FPN_s1x_ms'
 MODEL:
   FPN_ON: True
-  SEMSEG_ON: True
   FASTER_ON: True
-  PARSING_ON: True
+  UV_ON: True
   NUM_CLASSES: 2
   CONV1_RGB2BGR: False  # caffe style
 BACKBONE:
   CONV_BODY: "resnet"
   RESNET:  # caffe style
     LAYERS: (3, 4, 6, 3)
-FPN:
-  USE_GN: True
-SEMSEG:
-  SEMSEG_NUM_CLASSES: 20
-  ROI_SEMSEG_HEAD: 'fused_head'
-  SEMSEG_LOSS_WEIGHT: 2.0
-  SEMSEG_HEAD:
-    FUSION_LEVEL: 1  # P2
-    USE_GN: True
 RPN:
   ANCHOR_STRIDE: (4, 8, 16, 32, 64)
   PRE_NMS_TOP_N_TRAIN: 2000
@@ -32,37 +22,32 @@ RPN:
 FAST_RCNN:
   ROI_XFORM_RESOLUTION: (7, 7)
   ROI_XFORM_SAMPLING_RATIO: 2
-PRCNN:
-  ROI_PARSING_HEAD: "roi_gce_head"
-  NUM_PARSING: 20
+UVRCNN:
+  ROI_UV_HEAD: "roi_gce_head"
   ROI_STRIDES: [4]
-  ROI_SIZE_PER_IMG: 16
+  ROI_SIZE_PER_IMG: 32
   ROI_XFORM_RESOLUTION: (32, 32)
   ROI_XFORM_SAMPLING_RATIO: 2
   RESOLUTION: (128, 128)
-  LOSS_WEIGHT: 2.0  # double loss weight
-  PARSINGIOU_ON: True
+  INDEX_WEIGHTS : 2.0
+  PART_WEIGHTS : 0.3
+  POINT_REGRESSION_WEIGHTS : 0.1
   GCE_HEAD:
     NUM_CONVS_AFTER_ASPPV3: 4
     USE_NL: True
-    USE_GN: True
-  PARSINGIOU:
-    CONV_DIM: 128
-    MLP_DIM: 256
 SOLVER:
   WEIGHT_DECAY: 0.0001
-  BASE_LR: 0.02
+  BASE_LR: 0.002
   GAMMA: 0.1
-  WARM_UP_FACTOR: 0.0001
-  WARM_UP_ITERS: 1000
-  MAX_ITER: 135000
-  STEPS: [105000, 125000]
+  WARM_UP_ITERS: 500
+  MAX_ITER: 130000
+  STEPS: [100000, 120000]
 TRAIN:
   WEIGHTS: weights/pytorch-model/caffe-model/resnet50_caffe.pth
-  DATASETS: ('CIHP_train', )
+  DATASETS: ('dense_coco_2017_train', )
   SCALES: (512, 640, 704, 768, 800, 864)
   MAX_SIZE: 1400
 TEST:
-  DATASETS: ('CIHP_val',)
+  DATASETS: ('dense_coco_2017_val',)
   SCALE: 800
   MAX_SIZE: 1333

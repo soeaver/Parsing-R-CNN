@@ -1,8 +1,8 @@
-# bbox_AP: 65.8/92.8/73.7/3.4/46.8/68.7;
-# parsing: (mIoU:52.8/AP50:57.2/APvol:51.2/PCP50:55.4)
+# bbox_AP: 68.7/93.0/76.2/2.0/48.0/71.8;
+# parsing: (mIoU:56.0/AP50:64.1/APvol:54.1/PCP50:60.7)
 PIXEL_MEANS: [102.9801, 115.9465, 122.7717]
 PIXEL_STDS: [1.0, 1.0, 1.0]
-CKPT: 'ckpts/CIHP/e2e_parsing_rcnn_R-50-FPN_1x_ms'
+CKPT: 'ckpts/CIHP/e2e_parsing_rcnn_R-50-FPN_3x_ms'
 MODEL:
   FPN_ON: True
   FASTER_ON: True
@@ -40,9 +40,8 @@ SOLVER:
   GAMMA: 0.1
   WARM_UP_ITERS: 500
   WARM_UP_FACTOR: 0.01
-  MAX_ITER: 45000
-  STEPS: [30000, 40000]
-  SNAPSHOT_ITERS: 5000
+  MAX_ITER: 135000
+  STEPS: [105000, 125000]
 TRAIN:
   WEIGHTS: weights/pytorch-model/caffe-model/resnet50_caffe.pth
   DATASETS: ('CIHP_train', )

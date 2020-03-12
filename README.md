@@ -40,7 +40,7 @@ You need to download the datasets and annotations following this repo's formate.
 
 [MHP-v2](coming soon)
 
-[DensePoseData](https://drive.google.com/open?id=1WiTLYVIgMyCDENXHPVEWW7qbZ-3EBjbt)
+[DensePoseData](https://drive.google.com/open?id=1WiTLYVIgMyCDENXHPVEWW7qbZ-3EBjbt)(using original [MSCOCO2017](http://cocodataset.org/#download) images as)
 
 And following [Data](https://github.com/soeaver/Parsing-R-CNN/blob/master/INSTALL.md#data-and-pre-train-weights) to train or evaluate Parsing R-CNN models.
 

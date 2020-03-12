@@ -32,6 +32,16 @@ In this repository, we release the Parsing R-CNN code in Pytorch.
 Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-R-CNN/blob/master/INSTALL.md#install).
 
 
+## Dataset
+
+You need to download the datasets and annotations following this repo's formate. As:
+[CIHP](https://drive.google.com/open?id=1OLBd23ufm6CU8CZmLEYMdF-x2b8mRgxV)
+[MHP-v2](coming soon)
+[DensePoseData](https://drive.google.com/open?id=1WiTLYVIgMyCDENXHPVEWW7qbZ-3EBjbt)
+
+And following [Data](https://github.com/soeaver/Parsing-R-CNN/blob/master/INSTALL.md#data-and-pre-train-weights) to train or evaluate Parsing R-CNN models.
+
+
 ## Results and Models
 
 **On CIHP val**

@@ -36,11 +36,11 @@ Install Parsing R-CNN following [INSTALL.md](https://github.com/soeaver/Parsing-
 
 You need to download the datasets and annotations following this repo's formate. As:
 
-[CIHP](https://drive.google.com/open?id=1OLBd23ufm6CU8CZmLEYMdF-x2b8mRgxV)
+- [CIHP](https://drive.google.com/open?id=1OLBd23ufm6CU8CZmLEYMdF-x2b8mRgxV)
 
-[MHP-v2](coming soon)
+- [MHP-v2](coming soon)
 
-[DensePoseData](https://drive.google.com/open?id=1WiTLYVIgMyCDENXHPVEWW7qbZ-3EBjbt)(using original [MSCOCO2017](http://cocodataset.org/#download) images as)
+- [DensePoseData](https://drive.google.com/open?id=1WiTLYVIgMyCDENXHPVEWW7qbZ-3EBjbt)(using original [MSCOCO2017](http://cocodataset.org/#download) images)
 
 And following [Data](https://github.com/soeaver/Parsing-R-CNN/blob/master/INSTALL.md#data-and-pre-train-weights) to train or evaluate Parsing R-CNN models.
 

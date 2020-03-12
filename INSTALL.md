@@ -11,7 +11,7 @@ cd apex
 sudo python setup.py install --cuda_ext --cpp_ext
 
 # clone Hier-R-CNN
-git clone https://github.com/soeaver/Hier-R-CNN.git
+git clone https://github.com/soeaver/Parsing-R-CNN.git
 
 # install other requirements
 pip3 install -r requirements.txt
@@ -21,7 +21,7 @@ cd Hier-R-CNN
 sh make.sh
 
 # make cocoapi
-cd Hier-R-CNN/cocoapi/PythonAPI
+cd Parsing-R-CNN/cocoapi/PythonAPI
 mask
 cd ../../
 ln -s cocoapi/PythonAPI/pycocotools/ ./
@@ -38,10 +38,33 @@ ln -s cocoapi/PythonAPI/pycocotools/ ./
   │  │  │  ├─train2017
   │  │  │  ├─val2017
   │  │  ├─annotations
-  │  │  │  ├─COCOHumanParts
-  │  │  │  │  ├─person_humanparts_train2017.json
-  │  │  │  │  ├─person_humanparts_val2017.json
-  │
+  │  │  │  ├─DensePoseData
+  │  │  │  │  ├─densepose_coco_train2017.json
+  │  │  │  │  ├─densepose_coco_val2017.json
+  │  │  │  │  ├─densepose_coco_test2017.json
+  |  |
+  │  ├─CIHP
+  │  │  ├─train_img
+  │  │  │─train_parsing
+  │  │  │─train_seg
+  │  │  ├─val_img
+  │  │  │─val_parsing
+  │  │  │─val_seg  
+  │  │  ├─annotations
+  │  │  │  ├─CIHP_train.json
+  │  │  │  ├─CIHP_val.json
+  |  |
+  │  ├─MHP-v2
+  │  │  ├─train_img
+  │  │  │─train_parsing
+  │  │  │─train_seg
+  │  │  ├─val_img
+  │  │  │─val_parsing
+  │  │  │─val_seg  
+  │  │  ├─annotations
+  │  │  │  ├─MHP-v2_train.json
+  │  │  │  ├─MHP-v2_val.json
+  |
   ├─weights
      ├─resnet50_caffe.pth
      ├─resnet101_caffe.pth

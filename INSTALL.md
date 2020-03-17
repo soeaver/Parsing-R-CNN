@@ -72,6 +72,6 @@ ln -s cocoapi/PythonAPI/pycocotools/ ./
 
   ```
   
-  - Densepose estimation using original coco data.
+  - Densepose estimation using original coco images.
   - For training and evaluating densepose estimation on Parsing R-CNN, you need fetch DensePose data following [original repo](https://github.com/facebookresearch/DensePose/blob/master/INSTALL.md#fetch-densepose-data)
 

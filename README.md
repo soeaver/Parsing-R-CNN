@@ -1,4 +1,11 @@
 # Parsing-R-CNN
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parsing-r-cnn-for-instance-level-human/human-part-segmentation-on-cihp)](https://paperswithcode.com/sota/human-part-segmentation-on-cihp?p=parsing-r-cnn-for-instance-level-human)
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parsing-r-cnn-for-instance-level-human/pose-estimation-on-densepose-coco)](https://paperswithcode.com/sota/pose-estimation-on-densepose-coco?p=parsing-r-cnn-for-instance-level-human)
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/parsing-r-cnn-for-instance-level-human/human-part-segmentation-on-mhp-v20)](https://paperswithcode.com/sota/human-part-segmentation-on-mhp-v20?p=parsing-r-cnn-for-instance-level-human)
+
 **(New!)** Official implementation of **Parsing R-CNN for Instance-Level Human Analysis (CVPR 2019)**
 
 ## Citing Parsing R-CNN

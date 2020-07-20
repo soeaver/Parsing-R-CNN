@@ -2,7 +2,7 @@
 
 ```
 # install pytorch 1.1 and torchvision
-sudo pip3 install torch==1.1 torchvision
+sudo pip3 install torch==1.1 torchvision==0.3.0
 
 # install apex
 cd $INSTALL_DIR

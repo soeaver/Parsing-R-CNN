@@ -2,16 +2,16 @@
 
 ```
 # install pytorch 1.1 and torchvision
-sudo pip3 install torch==1.1 torchvision
+sudo pip3 install torch==1.1 torchvision==0.3.0
 
 # install apex
 cd $INSTALL_DIR
 git clone https://github.com/NVIDIA/apex.git
 cd apex
-sudo python setup.py install --cuda_ext --cpp_ext
+pip3 install -v --no-cache-dir ./
 
 # clone Hier-R-CNN
-git clone https://github.com/soeaver/Parsing-R-CNN.git
+git clone https://github.com/soeaver/Hier-R-CNN.git
 
 # install other requirements
 pip3 install -r requirements.txt
@@ -21,10 +21,10 @@ cd Hier-R-CNN
 sh make.sh
 
 # make cocoapi
-cd Parsing-R-CNN/cocoapi/PythonAPI
-mask
-cd ../../
-ln -s cocoapi/PythonAPI/pycocotools/ ./
+cd Hier-R-CNN/cocoapi/PythonAPI
+make
+cd ../../../
+ln -s Hier-R-CNN/cocoapi/PythonAPI/pycocotools/ ./
 ```
 
 ## Data and Pre-train weights

@@ -11,7 +11,7 @@ cd apex
 sudo python setup.py install --cuda_ext --cpp_ext
 
 # clone Hier-R-CNN
-git clone https://github.com/soeaver/Parsing-R-CNN.git
+git clone https://github.com/soeaver/Hier-R-CNN.git
 
 # install other requirements
 pip3 install -r requirements.txt
